@@ -590,13 +590,19 @@ namespace SVG {
     public:
         Polygon() = default;
         using Element::Element;
+        std::vector<double> xpoints;
+        std::vector<double> ypoints;
 
         Polygon(const std::vector<Point>& points) {
             // Quick and dirty
             std::string& point_str = this->attr["points"];
-            for (auto& pt : points)
+            for (auto& pt : points) {
+                xpoints.push_back(pt.first);
+                ypoints.push_back(pt.second);
                 point_str += to_string(pt) + " ";
+            }
         };
+        Element::BoundingBox get_bbox() override;
 
     protected:
         std::string tag() override { return "polygon"; }
@@ -604,6 +610,14 @@ namespace SVG {
 
     inline Element::BoundingBox Line::get_bbox() {
         return { x1(), x2(), y1(), y2() };
+    }
+
+    inline Element::BoundingBox Polygon::get_bbox() {
+        double x1 = *std::min_element(std::begin(xpoints), std::end(xpoints));
+        double x2 = *std::max_element(std::begin(xpoints), std::end(xpoints));
+        double y1 = *std::max_element(std::begin(ypoints), std::end(ypoints));
+        double y2 = *std::max_element(std::begin(ypoints), std::end(ypoints));
+        return { x1, x2, y1, y2 };
     }
 
     inline Element::BoundingBox Rect::get_bbox() {
