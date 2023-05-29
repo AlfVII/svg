@@ -615,7 +615,7 @@ namespace SVG {
     inline Element::BoundingBox Polygon::get_bbox() {
         double x1 = *std::min_element(std::begin(xpoints), std::end(xpoints));
         double x2 = *std::max_element(std::begin(xpoints), std::end(xpoints));
-        double y1 = *std::max_element(std::begin(ypoints), std::end(ypoints));
+        double y1 = *std::min_element(std::begin(ypoints), std::end(ypoints));
         double y2 = *std::max_element(std::begin(ypoints), std::end(ypoints));
         return { x1, x2, y1, y2 };
     }
@@ -900,7 +900,6 @@ namespace SVG {
          */
         SVG root;
         const double duration = (double)frames.size() / fps; // [seconds]
-        const double frame_step = 1.0 / fps; // duration of each frame [seconds]
         int current_frame = 0;
 
         root.style("svg.animated").set_attr("animation-iteration-count", "infinite")
