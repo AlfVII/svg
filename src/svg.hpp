@@ -248,6 +248,7 @@ namespace SVG {
         using ChildList = std::vector<Element*>;
         using ChildMap = std::map<std::string, ChildList>;
 
+        virtual ~Element() = default;
         Element() = default;
         Element(const Element& other) = delete; // No copy constructor
         Element(Element&& other) = default; // Move constructor
@@ -407,6 +408,7 @@ namespace SVG {
         class Style : public Element {
         public:
             Style() = default;
+            virtual ~Style() = default;
             using Element::Element;
             SelectorProperties css; /**< Basic CSS styling */
             std::map<std::string, SelectorProperties> keyframes; /**< CSS animations */
@@ -416,6 +418,7 @@ namespace SVG {
             std::string tag() override { return "style"; };
         };
 
+        virtual ~SVG() = default;
         SVG(SVGAttrib _attr =
                 { { "xmlns", "http://www.w3.org/2000/svg" } }
         ) : Shape(_attr) {}; /**< Create an <svg> with specified attributes */
