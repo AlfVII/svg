@@ -418,7 +418,6 @@ namespace SVG {
             std::string tag() override { return "style"; };
         };
 
-        virtual ~SVG() = default;
         SVG(SVGAttrib _attr =
                 { { "xmlns", "http://www.w3.org/2000/svg" } }
         ) : Shape(_attr) {}; /**< Create an <svg> with specified attributes */
