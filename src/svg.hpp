@@ -503,6 +503,21 @@ namespace SVG {
         std::string tag() override { return "text"; }
     };
 
+    class Title : public Element {
+    public:
+        Title() = default;
+        using Element::Element;
+
+        Title(std::string _content) {
+            content = _content;
+        }
+
+    protected:
+        std::string content;
+        std::string svg_to_string(const size_t) override;
+        std::string tag() override { return "title"; }
+    };
+
     class Group : public Element {
     public:
         using Element::Element;
@@ -744,6 +759,11 @@ namespace SVG {
         for (auto& pair: attr)
             ret += " " + pair.first + "=" + "\"" + pair.second + "\"";
         return ret += ">" + this->content + "</text>";
+    }
+
+    inline std::string Title::svg_to_string(const size_t indent_level) {
+        auto indent = std::string(indent_level, '\t');
+        return indent + "<title>" + this->content + "</title>";
     }
 
     inline void Element::autoscale(const double margin) {
